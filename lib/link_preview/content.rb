@@ -30,6 +30,7 @@ module LinkPreview
     PROPERTIES = [
       :title,
       :description,
+      :favicon,
       :site_name,
       :site_url,
       :image_url,
@@ -118,6 +119,8 @@ module LinkPreview
     def as_oembed
       if content_type_embed? || content_type_iframe? || content_type_video? || content_type_flash?
         @sources[:oembed].reverse_merge(as_oembed_video)
+      elsif content_type_image?
+        @sources[:oembed].reverse_merge(as_oembed_image)
       else
         @sources[:oembed].reverse_merge(as_oembed_link)
       end
@@ -291,9 +294,19 @@ module LinkPreview
         provider_url: site_url,
         url: url,
         title: title,
+        favicon: favicon,
         description: description,
         type: 'link',
         thumbnail_url: image_url
+      }.reject { |_, v| v.nil? }
+    end
+
+    def as_oembed_image
+      {
+        version: '1.0',
+        type: 'photo',
+        url: image_url,
+        name: image_file_name
       }.reject { |_, v| v.nil? }
     end
 
@@ -318,6 +331,10 @@ module LinkPreview
 
     def content_type_embed?
       get_property(:html) ? true : false
+    end
+
+    def content_type_image?
+      image_content_type =~ /image/ || image_content_type == 'binary/octet-stream' || image_content_type == 'image/svg+xml'
     end
 
     def content_html

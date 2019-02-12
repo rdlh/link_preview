@@ -77,6 +77,7 @@ module LinkPreview
       {
         title: find_title(doc),
         description: find_meta_description(doc),
+        favicon: find_favicon(doc),
         tags: Array.wrap(find_rel_tags(doc))
       }
     end
@@ -188,6 +189,14 @@ module LinkPreview
 
     def find_title(doc)
       doc.at('head/title').try(:inner_text)
+    end
+
+    def find_favicon(doc)
+      Enumerator.new do |e|
+        doc.search("head/link[@rel='shortcut icon']").each do |node|
+          e.yield node.attributes['href'].value
+        end
+      end.first
     end
 
     # See http://microformats.org/wiki/rel-tag
