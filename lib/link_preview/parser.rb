@@ -69,15 +69,15 @@ module LinkPreview
       {
         opengraph: parse_opengraph_video_data(doc),
         opengraph_embed: parse_opengraph_embed_data(doc),
-        html: parse_html_data(doc)
+        html: parse_html_data(doc, data.url)
       }
     end
 
-    def parse_html_data(doc)
+    def parse_html_data(doc, url)
       {
         title: find_title(doc),
         description: find_meta_description(doc),
-        favicon: find_favicon(doc),
+        favicon: find_favicon(doc, url),
         tags: Array.wrap(find_rel_tags(doc))
       }
     end
@@ -191,10 +191,20 @@ module LinkPreview
       doc.at('head/title').try(:inner_text)
     end
 
-    def find_favicon(doc)
+    def find_favicon(doc, url)
       Enumerator.new do |e|
         doc.search("head/link[@rel='shortcut icon']").each do |node|
-          e.yield node.attributes['href'].value
+          href_value = node.attributes['href'].value
+          if href_value[0] == '/'
+            begin
+              parsed_url = LinkPreview::URI.parse(url, {})
+              e.yield "#{parsed_url.scheme}://#{parsed_url.host}#{href_value}"
+            rescue
+              e.yield href_value
+            end
+          else
+            e.yield href_value
+          end
         end
       end.first
     end
