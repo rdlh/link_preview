@@ -89,7 +89,7 @@ module LinkPreview
         builder.use ForceUTF8Body
         @config.middleware.each { |middleware| builder.use middleware }
 
-        builder.use @config.http_adapter
+        builder.adapter @config.http_adapter
       end
     end
 
