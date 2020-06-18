@@ -68,7 +68,9 @@ module LinkPreview
 
     def get(uri, options = {})
       with_extra_env(options) do
-        connection.get(uri).tap do |response|
+        connection.get(uri) do |request|
+          request.headers['Accept-Language'] = options[:lang] if options[:lang]
+        end.tap do |response|
           response.extend ResponseWithURL
           response.url = uri
         end
