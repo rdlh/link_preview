@@ -44,6 +44,10 @@ module LinkPreview
 
   class ForceUTF8Body < Faraday::Middleware
     def force_utf8_body!(env)
+      begin
+        env[:body].force_encoding('utf-8')
+      rescue
+      end
       return if env[:body].encoding == Encoding::UTF_8 && env[:body].valid_encoding?
       return unless env[:response_headers][:content_type] =~ /text/
       env[:body].encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')

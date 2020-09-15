@@ -41,7 +41,7 @@ module LinkPreview
     attr_writer :http_client
 
     def http_adapter
-      @http_adapter ||= Faraday::Adapter::NetHttp
+      @http_adapter ||= :typhoeus
     end
 
     attr_writer :http_adapter

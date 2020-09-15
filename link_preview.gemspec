@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency('faraday', '~> 0.9')
   s.add_dependency('nokogiri')
   s.add_dependency('multi_json')
+  s.add_dependency('typhoeus')
 
   s.add_dependency('activesupport')
 
@@ -27,10 +28,10 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rubocop')
   s.add_development_dependency('builder')
   s.add_development_dependency('irbtools')
+  s.add_development_dependency('pry')
 
   # Testing
   s.add_development_dependency('rspec', '~> 2.9')
   s.add_development_dependency('vcr')
   s.add_development_dependency('webmock')
-  s.add_development_dependency('pry')
 end
