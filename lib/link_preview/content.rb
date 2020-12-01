@@ -334,7 +334,7 @@ module LinkPreview
     end
 
     def content_type_image?
-      (image_content_type =~ /image/ || image_content_type == 'binary/octet-stream' || image_content_type == 'image/svg+xml') && (get_property(:type) == 'image' || get_property(:title) == url)
+      (image_content_type =~ /image/ || image_content_type == 'binary/octet-stream' || image_content_type == 'image/svg+xml')
     end
 
     def content_html
