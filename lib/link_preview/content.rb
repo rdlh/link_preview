@@ -40,10 +40,11 @@ module LinkPreview
       :content_url,
       :content_type,
       :content_width,
-      :content_height
+      :content_height,
+      :page_content_type
     ].freeze
 
-    SOURCES = [:initial, :image, :oembed, :opengraph_embed, :opengraph, :html].freeze
+    SOURCES = [:headers, :initial, :image, :oembed, :opengraph_embed, :opengraph, :html].freeze
 
     SOURCE_PROPERTIES_TABLE =
       {
@@ -245,6 +246,8 @@ module LinkPreview
         [:html, :oembed, :opengraph_oembed, :opengraph, :default]
       when :image_data, :image_content_type, :image_file_name
         [:image, :oembed, :opengraph_oembed, :opengraph, :default]
+      when :page_content_type
+        [:headers]
       else
         [:oembed, :opengraph_oembed, :opengraph, :html, :image, :default]
       end
@@ -334,7 +337,7 @@ module LinkPreview
     end
 
     def content_type_image?
-      (image_content_type =~ /image/ || image_content_type == 'binary/octet-stream' || image_content_type == 'image/svg+xml')
+      page_content_type =~ /image/ || page_content_type == 'binary/octet-stream' || page_content_type == 'image/svg+xml'
     end
 
     def content_html
