@@ -34,7 +34,7 @@ module LinkPreview
 
     def parse(data)
       return {} unless valid_data?(data)
-      case data.headers[:content_type]
+      properties = case data.headers[:content_type]
       when /image/, 'binary/octet-stream'
         parse_image(data)
       when %r{\Atext/html.*}
@@ -46,6 +46,10 @@ module LinkPreview
       else
         {}
       end
+      properties[:headers] = {
+        page_content_type: data.headers[:content_type]
+      }
+      properties
     end
 
     private
