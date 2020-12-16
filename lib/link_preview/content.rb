@@ -92,7 +92,7 @@ module LinkPreview
 
     # @return [String] permalink URL of resource
     def url
-      extract(:url) || @content_uri
+      @content_uri
     end
 
     PROPERTIES.each do |property|
