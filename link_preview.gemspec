@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency('ruby-oembed')
   s.add_dependency('addressable')
-  s.add_dependency('faraday', '~> 0.9')
+  s.add_dependency('faraday')
   s.add_dependency('nokogiri')
   s.add_dependency('multi_json')
   s.add_dependency('typhoeus')
