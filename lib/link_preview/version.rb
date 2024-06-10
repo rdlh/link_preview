@@ -19,5 +19,5 @@
 # SOFTWARE.
 
 module LinkPreview
-  VERSION = '0.3.20'.freeze
+  VERSION = '0.3.21'.freeze
 end
